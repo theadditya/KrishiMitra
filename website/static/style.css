@@ -1,0 +1,156 @@
+  :root {
+            --primary-color: #008959;
+            --accent-color: #c69049;
+            --bg-light: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e0e0e0;
+            background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .welcome-text {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: border-color 0.3s;
+        }
+
+        .input-group:focus-within {
+            border-color: var(--primary-color);
+        }
+
+        .input-group i {
+            color: var(--primary-color);
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .input-group input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.8s;
+            margin-top: 10px;
+            border: none;
+        }
+
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 137, 89, 0.3);
+        }
+
+        .primary-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .secondary-btn {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .secondary-btn:hover {
+            background-color: #f0fdf4;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider span {
+            padding: 0 10px;
+        }
+
+        /* Small mobile screens */
+        @media (max-width: 400px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            h1 { font-size: 1.5rem; }
+        }
+    
