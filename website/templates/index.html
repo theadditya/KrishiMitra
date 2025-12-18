@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farmer - Responsive Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/static/icons/icon-144x144.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="/static/app.js"></script>
+    <script src="sw.js"></script>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo-container">
+            <img src="/static/1.png" alt="leaf icon">
+        </div>
+
+        <h1>Smart Farmer</h1>
+        <p class="welcome-text">Welcome Back, Farmers!</p>
+
+        <form id="LoginForm" onsubmit="event.preventDefault();">
+            <div class="input-group">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="phone" placeholder="Phone number" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn primary-btn">Login Securely</button>
+        </form>
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <button class="btn secondary-btn" onclick="window.location.href='#signup'">Create New Account</button>
+    </div>
+    
+    <script>
+        
+    </script>
+</body>
+</html>
