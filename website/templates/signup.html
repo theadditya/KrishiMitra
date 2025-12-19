@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Your Account</title>
-    <link rel="stylesheet" href="/website/static/signup.css">
-    <link rel="manifest" href="/static/manifest.json">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+    
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
     <meta name="theme-color" content="#4CAF50">
-    <link rel="apple-touch-icon" href="/static/icons/icon-144x144.png">
+    
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-144x144.png') }}">
 </head>
 <body>
     <div class="mobile-frame">
         <div class="registration-card">
             <header>
                 <div class="logo">
-                    <img src="/website/static/1.png">
+                    <img src="{{ url_for('static', filename='1.png') }}">
                 </div>
                 <h1>Create Your Account</h1>
             </header>
@@ -56,6 +60,6 @@
         </div>
     </div>
     
-    <script src="/static/app.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

@@ -1,24 +1,24 @@
-self.addEventListener('install', event=>{
+self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open('v1').then(cache=> {
+        caches.open('v1').then(cache => {
             return cache.addAll([
                 '/',
                 '/register',
-                '/templates/index.html',
                 '/static/style.css',
+                '/static/signup.css',
                 '/static/app.js',
                 '/static/manifest.json',
                 '/static/1.png',
-                '/static/icons/icon-144x144.png',
+                '/static/icons/icon-144x144.png'
             ]);
         })
     );
 });
-self.addEventListener('fetch',event=>{
+
+self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.match(event.request).then(response =>{
-            return response || 
-            fetch(event.request);
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request);
         })
     );
 });
