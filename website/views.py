@@ -6,6 +6,10 @@ views= Blueprint ('views', __name__)
 def home():
     return render_template('index.html')
 
+@views.route('/register')
+def register():
+    return render_template('signup.html')
+
 @views.route('/sw.js')
 def service_worker():
     return send_from_directory('static','sw.js')

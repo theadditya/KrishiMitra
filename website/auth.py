@@ -42,7 +42,11 @@ def signup():
     data = request.get_json()
     phone= data.get('phone')
     password= data.get('password')
-    full_name= data.get ('full_name','Farmer')
+    full_name= data.get ('full_name')
+    dob=data.get('dob')
+
+    if not phone or not password or not full_name:
+        return jsonify ({'success': False, 'message': 'Missing required fields'}), 400
 
     try:
         users_ref= db.collection('users')
@@ -55,11 +59,13 @@ def signup():
             'phone_number': phone,
             'password': password,
             'full_name': full_name,
-            'role':'Farmer'
+            'dob': dob,
+            'role':'Farmer',
+            'created_at': firestore.SERVER_TIMESTAMP
         }
         users_ref.add(new_user)
         return jsonify ({'success': True, 'message': 'Account created!'}),201
 
     except Exception as e:
-        return jsonify ({'success':False, 'message': str(e)}),500
+        return jsonify ({'success':False, 'message': 'Server Error'}),500
     

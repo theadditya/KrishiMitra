@@ -3,10 +3,12 @@ self.addEventListener('install', event=>{
         caches.open('v1').then(cache=> {
             return cache.addAll([
                 '/',
+                '/register',
                 '/templates/index.html',
                 '/static/style.css',
                 '/static/app.js',
                 '/static/manifest.json',
+                '/static/1.png',
                 '/static/icons/icon-144x144.png',
             ]);
         })

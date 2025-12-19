@@ -2,7 +2,7 @@
   "name": "Smart Farmer",
   "short_name": "Smart Farmer",
   "description": "The farmer's friend: an app for agricultural assistance and resources.",
-  "start_url": "http://127.0.0.1:5500/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4CAF50",

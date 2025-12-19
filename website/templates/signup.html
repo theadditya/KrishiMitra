@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Account</title>
+    <link rel="stylesheet" href="/website/static/signup.css">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="apple-touch-icon" href="/static/icons/icon-144x144.png">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="registration-card">
+            <header>
+                <div class="logo">
+                    <img src="/website/static/1.png">
+                </div>
+                <h1>Create Your Account</h1>
+            </header>
+
+            <form id="authForm">
+                <input type="text" placeholder="Full Name" required>
+                
+                <div class="input-with-icon">
+                    <input type="date" id="dob" placeholder="Date of Birth" required>
+                </div>
+
+                <div class="input-with-icon">
+                    <span class="prefix">+91</span>
+                    <input type="tel" placeholder="Mobile Number" maxlength="10" required>
+                </div>
+
+                <div class="captcha-section">
+                    <p>Captca Verification</p>
+                    <div class="captcha-row">
+                        <div id="captchaCode" class="captcha-display">kGh7Pq</div>
+                        <button type="button" class="refresh-btn" onclick="generateCaptcha()">🔄</button>
+                    </div>
+                    <input type="text" id="captchaInput" placeholder="Enter Captcha" required>
+                </div>
+
+                <div class="input-with-icon">
+                    <input type="password" id="pass" placeholder="Password" required>
+                    <span class="icon">👁️</span>
+                </div>
+
+                <div class="input-with-icon">
+                    <input type="password" id="confirmPass" placeholder="Confirm Password" required>
+                    <span class="icon">🔒</span>
+                </div>
+
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+
+        </div>
+    </div>
+    
+    <script src="/static/app.js"></script>
+</body>
+</html>
