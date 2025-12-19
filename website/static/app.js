@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (result.success) {
                     alert("Welcome " + result.user + "!");
+                    window.location.href = '/dashboard';
                
                 } else {
                     alert(result.message);
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (result.success) {
                     alert(result.message);
-                    window.location.href = '/'; 
+                    window.location.href = '/dashboard'; 
                 } else {
                     alert(result.message);
                 }

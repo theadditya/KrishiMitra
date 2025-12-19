@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Mitra App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --nav-bg: #558b2f;
+            --bg-light: #f8f9f8;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            a{
+                text-decoration: none;
+            }
+        }
+
+        body { 
+            background-color: #e0eadd; 
+            display: flex; 
+            justify-content: center; 
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px; 
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+        .smart{
+           h1{ 
+            font-size: 1.2rem;
+            margin:0;
+            position:absolute;
+            left:70px;
+            top:26px;
+           }
+        }
+        .logo img{
+            width:60px;
+            height:auto;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropbtn {
+            background-color: #000080;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #2980b9;
+        }
+        .hero {
+            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000') center/cover;
+            height: 220px;
+            color: white;
+        }
+        .hero-overlay {
+            background: rgba(0, 0, 0, 0.3);
+            height: 100%;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .search-bar {
+            background: white;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            margin-top: 15px;
+            color: #666;
+            a{
+                text-decoration: none;
+                
+            }
+        }
+        .search-bar input { 
+            border: none; 
+            outline: none; 
+            width: 100%; 
+            margin: 0 10px; 
+        }
+        .quick-actions { 
+            padding: 20px; 
+        }
+        .quick-actions h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 12px;
+        }
+        .card {
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-decoration: none;
+            transition: transform 0.1s;
+            i{
+                text-align: center;
+                align-items: center;
+            }
+        }
+        .card:active { 
+            transform: scale(0.97); 
+        }
+        .card i {
+            font-size: 20px; 
+        }
+        .card h3 {
+            font-size: 1rem; 
+            color: #333; 
+        }
+        .card p { 
+            font-size: 0.8rem; 
+            color: #666; 
+        }
+        .white { 
+            background: #ffffff; 
+            border: 1px solid #eee; 
+        }
+        .blue { 
+            background: #e3f2fd; 
+        }
+        .orange { 
+            background: #fff3e0;
+        }
+        .full-width { 
+            grid-column: span 2;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 500px;
+            background: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            color: white;
+            a{
+                text-decoration: none;
+                color: white;
+            }
+        }
+        .content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            min-height: 100px;
+        }
+        .green-card { 
+            background-color:#dcedc8
+        }
+        .blue-card { 
+            background-color: #e1f5fe; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .orange-card { 
+            background-color: #ffecb3; 
+        }
+
+        .card h2 {
+            font-size: 24px; 
+            margin-top: 5px; 
+            text-align: center; 
+        }
+        .card h3 {
+            font-size: 18px; 
+            color: #333; 
+            text-align: center; 
+        }
+        .card p { 
+            font-size: 14px; 
+            color: #555; 
+            text-align: center; 
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            color: #888;
+            margin-bottom: 15px;
+            font-size: 18px;
+            align-items: center;
+            a{
+            text-decoration: none;
+            color: #777;
+        }
+        }
+        .legal-links {
+            font-size: 11px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .legal-links a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .nav-item { 
+            text-align: center; 
+            font-size: 12px; 
+        }
+        .nav-item i { 
+            display: block; 
+            font-size: 18px; 
+            margin-bottom: 3px; 
+        }
+</style>
+</head>
+<body>
+        <div class="app-container">
+        <header>
+            <div class="logo"><img src="1.png" alt="logo"></div>
+            <div class="smart"><h1>Smart Farmer</h1></div>
+            <div class="dropdown">
+             <button class="dropbtn">🌐 English</button>
+             <div class="dropdown-content">
+             <a href="#">हिन्दी</a>
+             <a href="#">ਪੰਜਾਬੀ</a>
+             <a href="#">ગુજરાતી</a>
+             <a href="#">मराठी</a>
+             <a href="#">தமிழ்</a>
+             <a href="#">తెలుగు</a>
+        </div>
+        </div>
+        </header>
+            <section class="hero">
+            <div class="hero-overlay">
+            <h1>Welcome,<br>Farmer!</h1>
+            <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Ask Smart Farmer..">
+            <a href=""><i class="fas fa-microphone"></i></a>
+            </div>
+            </div>
+        </section>
+
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="grid-container">
+                <a href="">
+                <div class="card white">
+                <i class="fas fa-microscope" style="color: #2e7d32;"></i>
+                <h3>Crop Disease Detection</h3>
+                <p>Scan disease</p>
+                </div>
+                </a>
+                <a href="">
+                <div class="card blue">
+                <i class="fas fa-users" style="color: #1976d2;"></i>
+                <h3>Community</h3>
+                <p>Ask experts</p>
+                </div>
+                </a>
+                <a href="">
+                <div class="card blue">
+                <i class="fas fa-newspaper" style="color: #1976d2;"></i>
+                <h3>News</h3>
+                <p>Govt schemes</p>
+                </div>
+                </a>
+                <a href="">
+                <div class="card blue">
+                <i class="fas fa-chart-line" style="color: #1976d2;"></i>
+                <h3>Mandi Price</h3>
+                <p>Live rates</p>
+                </div>
+                </a>
+                <a href="">
+                <div class="card orange full-width">
+                <i class="fas fa-store" style="color: #ef6c00;"></i>
+                <h3>Marketplace</h3>
+                <p>Buy, Rent, or Sell agricultural items</p>
+                </div>
+                </a>
+            </div>
+        </section>
+        <main class="content">
+            <div class="card green-card">
+            <p>Active Registered Farmer</p>
+            <h2>1.4 M+</h2>
+            </div>
+        <div class="card blue-card">
+            <div class="card-text">
+                <p>Available Languages</p>
+                <h2>6+</h2>
+                </div>
+        </div>
+        <div class="card orange-card">
+                <p>Registered Market</p>
+                <h2>10 K+</h2>
+        </div>
+        </main>
+        <footer class="footer">
+            <div class="social-links">
+            <a href=""><i class="fab fa-facebook"></i></a>
+            <a href=""><i class="fab fa-twitter"></i></a>
+            <a href=""><i class="fa-brands fa-instagram"></i></a>
+            <a href=""><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="legal-links">
+                <a href="#">Privacy</a> | <a href="#">Terms and Conditions</a> | <a href="#">Feedback</a>
+            </div>
+        </footer>
+    </div>
+        <nav class="bottom-nav">
+            <a href=""><div class="nav-item"><i class="fas fa-home"></i>Home</div></a>
+            <a href=""><div class="nav-item"><i class="fas fa-tractor"></i>My Farm</div></a>
+            <a href=""><div class="nav-item"><i class="fas fa-user"></i>Profile</div></a>
+        </nav>
+    </div>
+</body>
+</html>

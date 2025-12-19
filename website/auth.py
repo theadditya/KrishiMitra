@@ -1,5 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from . import db
+from firebase_admin import firestore
 
 auth = Blueprint ('auth', __name__)
 
@@ -23,6 +24,8 @@ def login():
 
         if user_found:
             if user_found.get('password')== password:
+                session ['user']= phone
+                session ['user_name']= user_found.get('full_name','Farmer')
                 return jsonify ({
                 'success': True,
                 'message': 'Login Succesfully!',
@@ -64,8 +67,17 @@ def signup():
             'created_at': firestore.SERVER_TIMESTAMP
         }
         users_ref.add(new_user)
+
+        session ['user']= phone 
+        session['user_name']= full_name
+
         return jsonify ({'success': True, 'message': 'Account created!'}),201
 
     except Exception as e:
+        print (f"Signup Error: {e}")
         return jsonify ({'success':False, 'message': 'Server Error'}),500
     
+    @auth.route ('/logout')
+    def logout ():
+        session.clear()
+        return jsonify({'success': True, 'message':'logged out'})
