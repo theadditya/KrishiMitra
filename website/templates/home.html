@@ -3,381 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kisan Mitra App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Kisan Mitra - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --primary-green: #2e7d32;
-            --nav-bg: #558b2f;
-            --bg-light: #f8f9f8;
+            --nav-bg: #1b5e20;
+            --bg-light: #f1f8e9;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            a{
-                text-decoration: none;
-            }
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
         body { 
-            background-color: #e0eadd; 
-            display: flex; 
-            justify-content: center; 
+            background-color: var(--bg-light);
+            min-height: 100vh;
         }
 
+        /* --- RESPONSIVE LAYOUT --- */
         .app-container {
             width: 100%;
-            max-width: 500px; 
+            margin: 0 auto;
+            /* Mobile Default: Full width, but max 1200px on big screens */
+            max-width: 1200px; 
             background: white;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 80px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding-bottom: 80px; /* Space for bottom nav */
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
         }
 
+        /* --- HEADER --- */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            color: var(--primary-green);
-            font-weight: bold;
-        }
-        .smart{
-           h1{ 
-            font-size: 1.2rem;
-            margin:0;
-            position:absolute;
-            left:70px;
-            top:26px;
-           }
-        }
-        .logo img{
-            width:60px;
-            height:auto;
-        }
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .dropbtn {
-            background-color: #000080;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 5px;
-        }
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-        .dropdown-content a:hover {
-            background-color: #ddd;
+            padding: 15px 20px;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #eee;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .dropdown:hover .dropbtn {
-            background-color: #2980b9;
+
+        /* FLASK IMAGE FIX: Ensure size is controlled */
+        .brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
         }
+
+        .brand h1 {
+            font-size: 1.2rem;
+            color: var(--primary-green);
+        }
+
+        /* --- GOOGLE TRANSLATE STYLE --- */
+        #google_translate_element {
+            overflow: hidden;
+            border-radius: 5px;
+        }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+
+        /* --- HERO SECTION --- */
         .hero {
-            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000') center/cover;
-            height: 220px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1625246333195-58403a79d864?auto=format&fit=crop&q=80&w=1000');
+            background-size: cover;
+            background-position: center;
+            height: 250px;
             color: white;
-        }
-        .hero-overlay {
-            background: rgba(0, 0, 0, 0.3);
-            height: 100%;
-            padding: 25px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 20px;
         }
+
+        .hero h1 { font-size: 2rem; margin-bottom: 15px; }
+
         .search-bar {
             background: white;
-            border-radius: 25px;
+            border-radius: 50px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
-            padding: 10px 15px;
-            margin-top: 15px;
-            color: #666;
-            a{
-                text-decoration: none;
-                
-            }
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .search-bar input { 
-            border: none; 
-            outline: none; 
-            width: 100%; 
-            margin: 0 10px; 
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            margin-left: 10px;
+            font-size: 1rem;
         }
-        .quick-actions { 
-            padding: 20px; 
-        }
-        .quick-actions h2 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #333;
-        }
+
+        /* --- GRID SYSTEM (Responsive) --- */
+        .section-title { padding: 0 20px; color: #444; margin-bottom: 15px; }
+
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 12px;
+            padding: 0 20px;
+            gap: 15px;
+            /* MAGIC TRICK: Auto-fit columns based on screen size */
+            /* Mobile: 2 columns | Desktop: 4 columns */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
+
         .card {
-            padding: 15px;
-            border-radius: 12px;
-            text-align: left;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #eee;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            text-decoration: none;
-            transition: transform 0.1s;
-            i{
-                text-align: center;
-                align-items: center;
-            }
+            align-items: center;
+            justify-content: center;
+            height: 140px;
         }
-        .card:active { 
-            transform: scale(0.97); 
+
+        .card:hover { transform: translateY(-5px); border-color: var(--primary-green); }
+
+        .card i { font-size: 2rem; margin-bottom: 10px; }
+        .card h3 { font-size: 1rem; margin-bottom: 5px; }
+        .card p { font-size: 0.8rem; color: #777; }
+
+        /* Specific Card Colors */
+        .card.green i { color: #2e7d32; }
+        .card.blue i { color: #1565c0; }
+        .card.orange i { color: #e65100; }
+        .card.purple i { color: #6a1b9a; }
+
+        /* --- STATS SECTION --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
         }
-        .card i {
-            font-size: 20px; 
+        .stat-card {
+            padding: 20px;
+            border-radius: 12px;
+            color: #333;
         }
-        .card h3 {
-            font-size: 1rem; 
-            color: #333; 
-        }
-        .card p { 
-            font-size: 0.8rem; 
-            color: #666; 
-        }
-        .white { 
-            background: #ffffff; 
-            border: 1px solid #eee; 
-        }
-        .blue { 
-            background: #e3f2fd; 
-        }
-        .orange { 
-            background: #fff3e0;
-        }
-        .full-width { 
-            grid-column: span 2;
-        }
+
+        /* --- BOTTOM NAV --- */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             width: 100%;
-            max-width: 500px;
-            background: var(--nav-bg);
+            max-width: 1200px; /* Match container */
+            background: white;
             display: flex;
             justify-content: space-around;
-            padding: 12px 0;
-            color: white;
-            a{
-                text-decoration: none;
-                color: white;
-            }
-        }
-        .content {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .card {
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            min-height: 100px;
-        }
-        .green-card { 
-            background-color:#dcedc8
-        }
-        .blue-card { 
-            background-color: #e1f5fe; 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .orange-card { 
-            background-color: #ffecb3; 
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
         }
 
-        .card h2 {
-            font-size: 24px; 
-            margin-top: 5px; 
-            text-align: center; 
-        }
-        .card h3 {
-            font-size: 18px; 
-            color: #333; 
-            text-align: center; 
-        }
-        .card p { 
-            font-size: 14px; 
-            color: #555; 
-            text-align: center; 
-        }
-        .footer {
+        .nav-item {
             text-align: center;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            color: #888;
-            margin-bottom: 15px;
-            font-size: 18px;
-            align-items: center;
-            a{
-            text-decoration: none;
             color: #777;
+            font-size: 0.8rem;
+            cursor: pointer;
         }
-        }
-        .legal-links {
-            font-size: 11px;
-            color: #777;
-            margin-bottom: 15px;
+        
+        .nav-item i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
-        .legal-links a {
-            text-decoration: none;
-            color: inherit;
+        .nav-item.active { color: var(--primary-green); }
+
+        /* --- DESKTOP TWEAKS --- */
+        @media (min-width: 768px) {
+            body { background-color: #e8f5e9; } /* Green tint background on Desktop */
+            .app-container { margin-top: 20px; border-radius: 20px; min-height: 95vh; }
+            .hero { border-radius: 20px 20px 0 0; height: 300px; }
         }
-        .nav-item { 
-            text-align: center; 
-            font-size: 12px; 
-        }
-        .nav-item i { 
-            display: block; 
-            font-size: 18px; 
-            margin-bottom: 3px; 
-        }
-</style>
+    </style>
 </head>
 <body>
-        <div class="app-container">
+
+    <div class="app-container">
+        
         <header>
-            <div class="logo"><img src="1.png" alt="logo"></div>
-            <div class="smart"><h1>Smart Farmer</h1></div>
-            <div class="dropdown">
-             <button class="dropbtn">🌐 English</button>
-             <div class="dropdown-content">
-             <a href="#">हिन्दी</a>
-             <a href="#">ਪੰਜਾਬੀ</a>
-             <a href="#">ગુજરાતી</a>
-             <a href="#">मराठी</a>
-             <a href="#">தமிழ்</a>
-             <a href="#">తెలుగు</a>
-        </div>
-        </div>
-        </header>
-            <section class="hero">
-            <div class="hero-overlay">
-            <h1>Welcome,<br>Farmer!</h1>
-            <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Ask Smart Farmer..">
-            <a href=""><i class="fas fa-microphone"></i></a>
+            <div class="brand">
+                <img src="{{ url_for('static', filename='1.png') }}" alt="Smart Farmer Logo">
+                <h1>Smart Farmer</h1>
             </div>
+            
+            <div id="google_translate_element"></div>
+        </header>
+
+        <section class="hero">
+            <h1>Welcome Back,<br>{{ user_name }}!</h1> <div class="search-bar">
+                <i class="fas fa-search" style="color: #999;"></i>
+                <input type="text" placeholder="Search crops, prices, schemes...">
+                <i class="fas fa-microphone" style="color: var(--primary-green);"></i>
             </div>
         </section>
 
-        <section class="quick-actions">
-            <h2>Quick Actions</h2>
-            <div class="grid-container">
-                <a href="">
-                <div class="card white">
-                <i class="fas fa-microscope" style="color: #2e7d32;"></i>
-                <h3>Crop Disease Detection</h3>
-                <p>Scan disease</p>
-                </div>
-                </a>
-                <a href="">
-                <div class="card blue">
-                <i class="fas fa-users" style="color: #1976d2;"></i>
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="grid-container">
+            <a href="#" class="card green">
+                <i class="fas fa-leaf"></i>
+                <h3>Crop Disease</h3>
+                <p>Scan & Detect</p>
+            </a>
+
+            <a href="#" class="card blue">
+                <i class="fas fa-users"></i>
                 <h3>Community</h3>
-                <p>Ask experts</p>
-                </div>
-                </a>
-                <a href="">
-                <div class="card blue">
-                <i class="fas fa-newspaper" style="color: #1976d2;"></i>
-                <h3>News</h3>
-                <p>Govt schemes</p>
-                </div>
-                </a>
-                <a href="">
-                <div class="card blue">
-                <i class="fas fa-chart-line" style="color: #1976d2;"></i>
-                <h3>Mandi Price</h3>
-                <p>Live rates</p>
-                </div>
-                </a>
-                <a href="">
-                <div class="card orange full-width">
-                <i class="fas fa-store" style="color: #ef6c00;"></i>
+                <p>Ask Experts</p>
+            </a>
+
+            <a href="#" class="card purple">
+                <i class="fas fa-newspaper"></i>
+                <h3>News & Govt</h3>
+                <p>Latest Schemes</p>
+            </a>
+
+            <a href="#" class="card orange">
+                <i class="fas fa-chart-line"></i>
+                <h3>Mandi Prices</h3>
+                <p>Live Rates</p>
+            </a>
+            
+            <a href="#" class="card green">
+                <i class="fas fa-store"></i>
                 <h3>Marketplace</h3>
-                <p>Buy, Rent, or Sell agricultural items</p>
-                </div>
-                </a>
-            </div>
-        </section>
-        <main class="content">
-            <div class="card green-card">
-            <p>Active Registered Farmer</p>
-            <h2>1.4 M+</h2>
-            </div>
-        <div class="card blue-card">
-            <div class="card-text">
-                <p>Available Languages</p>
-                <h2>6+</h2>
-                </div>
+                <p>Buy & Sell</p>
+            </a>
+             <a href="#" class="card blue">
+                <i class="fas fa-robot"></i>
+                <h3>AI Chatbot</h3>
+                <p>Ask Anything</p>
+            </a>
         </div>
-        <div class="card orange-card">
-                <p>Registered Market</p>
-                <h2>10 K+</h2>
+
+        <h2 class="section-title" style="margin-top: 20px;">Live Stats</h2>
+        <div class="stats-grid">
+            <div class="stat-card" style="background: #e8f5e9;">
+                <p>Active Farmers</p>
+                <h2>1.4 M+</h2>
+            </div>
+            <div class="stat-card" style="background: #e3f2fd;">
+                <p>Daily Trades</p>
+                <h2>₹ 45 Lakhs</h2>
+            </div>
         </div>
-        </main>
-        <footer class="footer">
-            <div class="social-links">
-            <a href=""><i class="fab fa-facebook"></i></a>
-            <a href=""><i class="fab fa-twitter"></i></a>
-            <a href=""><i class="fa-brands fa-instagram"></i></a>
-            <a href=""><i class="fab fa-youtube"></i></a>
-            </div>
-            <div class="legal-links">
-                <a href="#">Privacy</a> | <a href="#">Terms and Conditions</a> | <a href="#">Feedback</a>
-            </div>
-        </footer>
-    </div>
+
         <nav class="bottom-nav">
-            <a href=""><div class="nav-item"><i class="fas fa-home"></i>Home</div></a>
-            <a href=""><div class="nav-item"><i class="fas fa-tractor"></i>My Farm</div></a>
-            <a href=""><div class="nav-item"><i class="fas fa-user"></i>Profile</div></a>
+            <div class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-tractor"></i>
+                <span>My Farm</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
         </nav>
+
     </div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE, 
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
