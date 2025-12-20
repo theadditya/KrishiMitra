@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketPlace - Krishi Mitra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='marketplace-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <style>
+        body { padding-bottom: 80px; }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #2e7d32;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-item { 
+            text-align: center; 
+            font-size: 12px; 
+            color: white; 
+            text-decoration: none; 
+            cursor: pointer; 
+            flex: 1;
+        }
+        .nav-item i { display: block; font-size: 20px; margin-bottom: 4px; }
+        .nav-item.active { color: #ff9800; font-weight: bold; }
+        .nav-item:hover { background-color: rgba(255,255,255,0.1); border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">  
+        <header>
+            <h1>MarketPlace</h1>
+            <p>Farmers' own marketplace</p>
+            </header>
+
+        {% if user_logged_in %}
+            <button class="btn-buy" style="margin: 20px 0; background: #2e7d32;" onclick="toggleSellForm()">
+                + Sell Your Produce
+            </button>
+            
+            <div id="sellForm" style="display:none; background:white; padding:20px; margin-bottom:20px; border-radius:10px; border: 1px solid #ddd;">
+                <h3>Add New Item</h3>
+                <form action="{{ url_for('views.marketplace') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Item Name (e.g. Wheat)" required>
+                        <select name="category" required style="padding:10px; border-radius:5px; border:1px solid #ccc;">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Crops">Crops</option>
+                            <option value="Fertilizer">Fertilizer</option>
+                            <option value="Tools">Tools</option>
+                            <option value="Rentals">Rentals</option>
+                        </select>
+                        <input type="number" name="price" placeholder="Price (₹)" required>
+                    </div>
+                    <div class="form-group" style="margin-top:10px;">
+                        <input type="text" name="unit" placeholder="Unit (e.g. kg, quintal)" required>
+                        <input type="text" name="location" placeholder="Location" required>
+                    </div>
+                    <div class="form-group" style="margin-top:10px;">
+                        <textarea name="description" placeholder="Description (Optional)" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc;" rows="3"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-top:10px;">
+                        <label>Upload Image:</label>
+                        <input type="file" name="image" accept="image/*">
+                    </div>
+                    <button type="submit" style="margin-top:15px; width: 100%;">Post Ad</button>
+                </form>
+            </div>
+        {% else %}
+            <div style="background:#fff3e0; padding:15px; margin:20px 0; text-align:center; border-radius:10px;">
+                Want to sell? <a href="{{ url_for('views.login_page') }}" style="color:#e65100; font-weight:bold;">Login here</a>
+            </div>
+        {% endif %}
+
+        <div class="filter-box" style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee;">
+            <h3>🔍 Search & Filter</h3>
+            <form action="{{ url_for('views.marketplace') }}" method="GET">
+                <div class="form-group">
+                    <input type="text" name="search" placeholder="Search..." value="{{ request.args.get('search', '') }}">
+                    <select name="category">
+                        <option value="All">All Categories</option>
+                        <option value="Crops">Crops</option>
+                        <option value="Fertilizer">Fertilizer</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Rentals">Rentals</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <input type="text" name="location" placeholder="Location" value="{{ request.args.get('location', '') }}">
+                    <input type="number" name="min_price" placeholder="Min ₹" value="{{ request.args.get('min_price', '') }}">
+                    <input type="number" name="max_price" placeholder="Max ₹" value="{{ request.args.get('max_price', '') }}">
+                </div>
+                <button type="submit" style="margin-top:10px; background: #008959; width: 100%;">Apply Filters</button>
+            </form>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 class="grid-title">📦 Fresh Listings:</h2>
+            <div id="google_translate_element"></div>
+        </div>
+
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="{{ product.image }}" alt="product">
+                </div>
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <span style="background: #eee; font-size: 0.8rem; padding: 2px 6px; border-radius: 4px;">{{ product.category }}</span>
+                    <div class="price">₹{{ product.price }} / {{ product.unit }}</div>
+                    <div class="location">📍 {{ product.location }}</div>
+                    <p style="font-size:0.8rem; color:#666;">Seller: {{ product.seller }}</p>
+                    <button class="btn-buy" onclick="alert('Call {{ product.seller_phone }}')">Contact Seller</button>
+                </div>
+            </div>
+            {% else %}
+            <p style="text-align:center; width:100%; color:#666; margin-top:20px;">No items match your search.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="{{ url_for('views.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>Home
+        </a>
+        <a href="{{ url_for('views.my_farm') }}" class="nav-item">
+            <i class="fas fa-tractor"></i>My Farm
+        </a>
+        <a href="{{ url_for('views.marketplace') }}" class="nav-item active">
+            <i class="fas fa-store"></i>Market
+        </a>
+        <a href="{{ url_for('views.profile') }}" class="nav-item">
+            <i class="fas fa-user"></i>Profile
+        </a>
+    </nav>
+
+    <script>
+        function toggleSellForm() {
+            var form = document.getElementById('sellForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+        }
+    </script>
+</body>
+</html>

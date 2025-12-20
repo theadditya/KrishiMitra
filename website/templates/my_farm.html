@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Farm - Krishi Mitra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='marketplace-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body { padding-bottom: 80px; background-color: #f0f7f4; margin: 0; font-family: 'Segoe UI', sans-serif; }
+        
+        .farm-header {
+            background: #2e7d32;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .farm-header h1 { margin: 0; font-size: 2rem; }
+        .farm-header p { opacity: 0.9; margin-top: 5px; }
+
+        .dashboard-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            border-left: 5px solid #ff9800;
+            padding-left: 10px;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-top: 5px solid #2e7d32;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-img-container { height: 180px; width: 100%; background-color: #f0f0f0; overflow: hidden; }
+        .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: auto; 
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .btn-action {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .btn-edit { background-color: #1976d2; }
+        .btn-delete { background-color: #d32f2f; }
+
+        /* --- MODAL STYLES --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%; 
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover { color: black; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .btn-save { background: #2e7d32; color: white; width: 100%; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #2e7d32;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            color: white;
+            z-index: 1000;
+        }
+        .nav-item { text-align: center; font-size: 12px; color: white; text-decoration: none; cursor: pointer; }
+        .nav-item i { display: block; font-size: 20px; margin-bottom: 4px; }
+        .nav-item.active { color: #ff9800; }
+    </style>
+</head>
+<body>
+
+    <div class="farm-header">
+        <h1><i class="fas fa-tractor"></i> My Farm</h1>
+        <p>Welcome back, {{ user }}</p>
+    </div>
+
+    <div class="dashboard-section">
+        <h2 class="section-title">My Sell Listings</h2>
+        
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="{{ product.image }}" alt="{{ product.name }}">
+                </div>
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <span style="background:#eee; color:#333; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; align-self: flex-start;">{{ product.category }}</span>
+                    
+                    <div style="font-size: 1.2rem; color: #d32f2f; font-weight: bold; margin: 10px 0;">₹{{ product.price }} / {{ product.unit }}</div>
+                    <div style="font-size: 0.9rem; color: #666;">📍 {{ product.location }}</div>
+                    
+                    {% if product.description %}
+                    <p style="font-size:0.85rem; color:#555; margin: 10px 0;">{{ product.description }}</p>
+                    {% endif %}
+
+                    <div class="action-row">
+                        <button class="btn-action btn-edit" 
+                            data-id="{{ product.id }}"
+                            data-name="{{ product.name }}"
+                            data-price="{{ product.price }}"
+                            data-unit="{{ product.unit }}"
+                            data-location="{{ product.location }}"
+                            data-category="{{ product.category }}"
+                            data-description="{{ product.description }}"
+                            onclick="openEditModal(this)">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        
+                        <form action="{{ url_for('views.delete_item', item_id=product.id) }}" method="POST" style="flex:1;" onsubmit="return confirm('Are you sure?');">
+                            <button type="submit" class="btn-action btn-delete" style="width:100%;">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div style="width:100%; text-align:center; padding: 40px; background: white; border-radius: 10px;">
+                <p>You haven't listed anything yet.</p>
+                <a href="{{ url_for('views.marketplace') }}" style="color: #2e7d32; font-weight:bold;">Start Selling</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2 style="text-align:center; color:#2e7d32;">Edit Item</h2>
+            
+            <form id="editForm" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" id="editName" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="editCategory" name="category" required>
+                        <option value="Crops">Crops</option>
+                        <option value="Fertilizer">Fertilizer</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Rentals">Rentals</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Price (₹)</label>
+                        <input type="number" id="editPrice" name="price" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Unit</label>
+                        <input type="text" id="editUnit" name="unit" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="editLocation" name="location" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="editDescription" name="description" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Update Image (Optional)</label>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn-save">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="{{ url_for('views.home') }}" class="nav-item"><i class="fas fa-home"></i>Home</a>
+        <a href="{{ url_for('views.my_farm') }}" class="nav-item active"><i class="fas fa-tractor"></i>My Farm</a>
+        <a href="{{ url_for('views.marketplace') }}" class="nav-item"><i class="fas fa-store"></i>Market</a>
+        <a href="{{ url_for('views.profile') }}" class="nav-item"><i class="fas fa-user"></i>Profile</a>
+    </nav>
+
+    <script>
+        function openEditModal(btn) {
+            // Retrieve data from data-* attributes
+            const id = btn.getAttribute('data-id');
+            const name = btn.getAttribute('data-name');
+            const price = btn.getAttribute('data-price');
+            const unit = btn.getAttribute('data-unit');
+            const location = btn.getAttribute('data-location');
+            const category = btn.getAttribute('data-category');
+            const description = btn.getAttribute('data-description');
+
+            // Set form action dynamically
+            document.getElementById('editForm').action = "/marketplace/edit/" + id;
+            
+            // Fill inputs
+            document.getElementById('editName').value = name;
+            document.getElementById('editPrice').value = price;
+            document.getElementById('editUnit').value = unit;
+            document.getElementById('editLocation').value = location;
+            document.getElementById('editCategory').value = category;
+            document.getElementById('editDescription').value = description;
+
+            // Show Modal
+            document.getElementById('editModal').style.display = "block";
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('editModal')) {
+                closeEditModal();
+            }
+        }
+    </script>
+</body>
+</html>

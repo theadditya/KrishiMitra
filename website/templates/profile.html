@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Krishi Mitra</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* FULL SCREEN RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background-color: #f0f7f4;
+            min-height: 100vh;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        /* HEADER */
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 1.5rem; }
+
+        /* FULL WIDTH CONTAINER */
+        .profile-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* CARD STYLE */
+        .profile-card {
+            background: white;
+            width: 100%; /* Full width mobile */
+            max-width: 600px; /* Reasonable limit for tablets */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .avatar {
+            font-size: 5rem;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .profile-details {
+            width: 100%;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .detail-row {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+        
+        /* BUTTONS */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-logout { background-color: #d32f2f; color: white; }
+        .btn-login { background-color: #2e7d32; color: white; }
+        .btn-signup { background-color: white; color: #2e7d32; border: 2px solid #2e7d32; }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #2e7d32; /* Match theme */
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            color: white;
+            z-index: 1000;
+        }
+        .nav-item { text-align: center; font-size: 12px; color: white; cursor: pointer; text-decoration: none;}
+        .nav-item i { display: block; font-size: 20px; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>My Profile</h1>
+    </header>
+
+    <div class="profile-container">
+        {% if user %}
+            <div class="profile-card">
+                <div class="avatar"><i class="fas fa-user-circle"></i></div>
+                <h2>{{ user.full_name }}</h2>
+                <span style="background:#e8f5e9; color:#2e7d32; padding:5px 10px; border-radius:15px; font-size:0.9rem;">{{ user.role }}</span>
+                
+                <div class="profile-details">
+                    <div class="detail-row">
+                        <span><i class="fas fa-phone"></i> Phone</span>
+                        <b>{{ user.phone_number }}</b>
+                    </div>
+                </div>
+
+                <button onclick="logout()" class="btn btn-logout">Logout</button>
+            </div>
+        {% else %}
+            <div class="profile-card">
+                <div class="avatar"><i class="fas fa-tractor"></i></div>
+                <h2>Welcome to Krishi Mitra</h2>
+                <p style="color:#666; margin-top:10px;">Please login to manage your farm and sell produce.</p>
+                
+                <a href="{{ url_for('views.login_page') }}" class="btn btn-login">Login</a>
+                <a href="{{ url_for('views.register') }}" class="btn btn-signup">Create Account</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="{{ url_for('views.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>Home
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-tractor"></i>My Farm
+        </a>
+        <a href="{{ url_for('views.profile') }}" class="nav-item">
+            <i class="fas fa-user"></i>Profile
+        </a>
+    </nav>
+
+    <script>
+        async function logout() {
+            await fetch('/logout');
+            window.location.reload();
+        }
+    </script>
+
+</body>
+</html>
