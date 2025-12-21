@@ -143,15 +143,15 @@
         <main class="content">
             <div class="card-stat green-card">
                 <p>Active Farmers</p>
-                <h2>1.4 M+</h2>
+                <h2>{{ farmer_count if farmer_count else '1.4 K+' }}</h2>
             </div>
             <div class="card-stat blue-card">
                 <p>Available Languages</p>
-                <h2>6+</h2>
+                <h2>8+</h2>
             </div>
             <div class="card-stat orange-card">
                 <p>Registered Market</p>
-                <h2>10 K+</h2>
+                <h2>{{ market_count if market_count else '500+' }}</h2>
             </div>
         </main>
 
@@ -171,6 +171,7 @@
     <nav class="bottom-nav">
         <a href="{{ url_for('views.home') }}"><div class="nav-item"><i class="fas fa-home"></i>Home</div></a>
         <a href="{{ url_for('views.my_farm') }}"><div class="nav-item"><i class="fas fa-tractor"></i>My Farm</div></a>
+        <a href="{{ url_for('views.marketplace') }}"><div class="nav-item"><i class="fas fa-store"></i>Market</div></a>
         <a href="{{ url_for('views.profile') }}"><div class="nav-item"><i class="fas fa-user"></i>Profile</div></a>
     </nav>
 

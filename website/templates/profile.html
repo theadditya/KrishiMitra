@@ -139,8 +139,11 @@
         <a href="{{ url_for('views.home') }}" class="nav-item">
             <i class="fas fa-home"></i>Home
         </a>
-        <a href="#" class="nav-item">
+        <a href="{{ url_for('views.my_farm') }}" class="nav-item">
             <i class="fas fa-tractor"></i>My Farm
+        </a>
+        <a href="{{ url_for('views.marketplace') }}" class="nav-item">
+            <i class="fas fa-store"></i>Market
         </a>
         <a href="{{ url_for('views.profile') }}" class="nav-item">
             <i class="fas fa-user"></i>Profile
