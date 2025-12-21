@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Diagnostics | Krishi Mitra</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='disease-detection.css') }}">
+    <!-- html2pdf.js for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>🌾 Crop Diagnostics</h1>
+        <p><strong>Krishi Vaidya</strong> AI-Powered Plant Disease Detection</p>
+    </header>
+
+    <div class="diag-container">
+
+        <!-- History Dropdown (initially hidden) -->
+        <div id="history-container" style="display: none; margin-bottom: 20px;">
+            <select id="history-dropdown" onchange="loadFromHistory(this.value)">
+                <option value="" disabled selected>📜 View Previous Reports</option>
+            </select>
+        </div>
+
+        <!-- Tool Description -->
+        <div class="tool-description">
+
+            <h2 style="margin-top: 0; color: #2e7d32; font-size: 1.5rem;">About Krishi Vaidya</h2>
+            <p style="color: #555; line-height: 1.6;">
+                <strong>Krishi Vaidya</strong> is your personal AI crop doctor. Powered by Google's advanced
+                <strong>Gemini AI </strong> technology, it analyzes photos of your crops in real-time to detect
+                diseases, pests, and nutrient deficiencies.
+            </p>
+            <p style="color: #666; font-size: 0.95rem; margin-bottom: 0;">
+                Simply upload a photo of an affected leaf, and our system will provide an instant diagnosis along with
+                expert-recommended treatments to save your harvest.
+            </p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-icon">📸</div>
+            <h2>Scan Your Crop</h2>
+            <p style="margin-bottom: 2rem; color: #666;">Take a clear photo or upload an image to identify diseases.</p>
+
+            <!-- Hidden File Inputs -->
+            <input type="file" id="file-input" accept="image/*">
+            <input type="file" id="camera-input" accept="image/*" capture="environment">
+
+            <!-- Direct Action Buttons -->
+            <div class="action-buttons-container">
+                <button id="direct-camera-btn" class="btn-action camera">
+                    <span style="font-size: 1.5rem;">📸</span> Take Photo
+                </button>
+                <button id="direct-gallery-btn" class="btn-action gallery">
+                    <span style="font-size: 1.5rem;">🖼️</span> Upload Image
+                </button>
+            </div>
+
+            <!-- Preview & Loading -->
+            <div class="preview-area" id="preview-area">
+                <img id="preview-img" class="preview-img" src="" alt="Crop Preview">
+                <div id="loading" class="loading-spinner"></div>
+                <p id="analyzing-text" style="display:none; color: #2e7d32; font-weight: bold; margin-top: 10px;">
+                    Analyzing Leaf Patterns with <strong>Krishi Vaidya</strong>...</p>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-area" id="results-area">
+            <div class="results-header">Diagnosis Report</div>
+            <div class="results-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img id="result-display-img" src="" alt="Analyzed Crop"
+                        style="max-width: 100%; max-height: 300px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                </div>
+
+                <div class="diagnosis-item">
+                    <h3 id="disease-name" style="color: #d32f2f; margin-top: 0;">Analyzing...</h3>
+                    <p id="disease-desc" style="color: #555;">Please wait while we process the image.</p>
+
+                    <div
+                        style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; margin-top: 10px;">
+                        <span>Confidence Score</span>
+                        <span id="confidence-val">0%</span>
+                    </div>
+                    <div class="confidence-meter">
+                        <div class="confidence-fill" id="confidence-bar"></div>
+                    </div>
+                </div>
+
+                <div class="diagnosis-item">
+                    <h4 style="color: #2e7d32; margin-bottom: 10px;">Recommended Treatment</h4>
+                    <ul class="treatment-list" id="treatment-list">
+                        <!-- Filled by JS -->
+                    </ul>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn-analyze" onclick="resetDiagnosis()">Analyze Another</button>
+                    <button id="btn-download" class="btn-download" onclick="downloadPDF()">Download PDF 📥</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Script -->
+    <script src="{{ url_for('static', filename='disease-detection.js') }}"></script>
+</body>
+
+</html>

@@ -2,8 +2,14 @@ from flask import Blueprint, render_template, send_from_directory, session, redi
 from . import db
 from firebase_admin import firestore
 import os
+import requests
+import json
 from werkzeug.utils import secure_filename
 from datetime import datetime, date
+from dotenv import load_dotenv  # Import to load .env file
+
+# Load environment variables from .env file
+load_dotenv()
 
 views = Blueprint('views', __name__)
 
@@ -253,8 +259,6 @@ def create_post():
         
         # --- HARVEST HERO SCORE CALCULATION ---
         users_ref = db.collection('users')
-        # We need the document ID. Since we store by phone query in auth, we need to find it first
-        # Ideally, store doc_id in session, but we can query by phone
         query = users_ref.where('phone_number', '==', phone).stream()
         user_doc = None
         user_id = None
@@ -280,7 +284,6 @@ def create_post():
                 if delta > 0:
                     # It's a new day!
                     # 1. Deduct points for missed days (if any)
-                    # Example: Last posted 3 days ago. Missed 2 days. Penalty = 2
                     missed_days = delta - 1
                     if missed_days > 0:
                         points_change -= missed_days
@@ -353,8 +356,73 @@ def comment_post(post_id):
 def service_worker():
     return send_from_directory('static', 'sw.js')
 
+# --- DISEASE DETECTION (Updated) ---
 @views.route('/disease-detection')
-def disease_detection(): return "<h3>Coming Soon</h3><a href='/'>Back Home</a>"
+def disease_detection():
+    # # Pass API key securely to the frontend
+    # api_key = os.environ.get('GEMINI_API_KEY')
+    return render_template('disease_detection.html', )
+
+@views.route('api/analyze-crop',methods=['POST'] )
+def analyze_crop():
+    api_key=os.environ.get('GEMINI_API_KEY')
+    if not api_key:
+        return jsonify({'error': 'Server configuration error: API key is missing'}),500
+    
+    data=request.get_json()
+    if not data:
+        return jsonify({'error': 'Invalid JSON data'}), 400
+    image_data=data.get('image')
+    if not image_data:
+        return jsonify({'error':'No images data provide'}),400
+    
+   
+    
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key={api_key}"
+    prompt = """
+    You are an expert agricultural plant pathologist. Analyze this image of a crop/plant.
+    1. Identify if there is a disease, pest, or if it is healthy.
+    2. If diseased, name the disease and explain the symptoms visible.
+    3. Provide a confidence score (0-100) based on visual clarity.
+    4. Suggest 7 practical treatments or preventative measures.
+    5. Answer with respect to an Indian Farmer. You can use simple language and provide practical solutions with Indian Solution too.
+    
+    Return ONLY valid JSON in this format, with no markdown formatting:
+    {
+        "name": "Disease Name or 'Healthy'",
+        "description": "Brief description of the issue.",
+        "confidence": 85,
+        "treatments": ["Treatment 1", "Treatment 2", "Treatment 3", "Treatment 4", "Treatment 5", "Treatment 6", "Treatment 7"]
+    }
+    """
+
+    payload = {
+        "contents": [{
+            "parts": [
+                { "text": prompt },
+                { "inline_data": { "mime_type": "image/jpeg", "data": image_data } }
+            ]
+        }]
+    }
+    try:
+            response = requests.post(url, json=payload, headers={'Content-Type': 'application/json'})
+            response_data = response.json()
+            
+            # 4. Parse and Clean the Response on the Server
+            if 'candidates' in response_data:
+                text_response = response_data['candidates'][0]['content']['parts'][0]['text']
+                # Remove Markdown code blocks if present
+                clean_json = text_response.replace('```json', '').replace('```', '').strip()
+                result = json.loads(clean_json)
+                return jsonify(result)
+            else:
+                print("Gemini API Error:", response_data)
+                return jsonify({'error': 'AI could not analyze the image'}), 500
+
+    except Exception as e:
+            print(f"Server Error: {e}")
+            return jsonify({'error': str(e)}), 500
+        
 @views.route('/news')
 def news(): return "<h3>Coming Soon</h3><a href='/'>Back Home</a>"
 @views.route('/mandi')
