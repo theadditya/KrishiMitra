@@ -378,7 +378,7 @@ def analyze_crop():
     
    
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key={api_key}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
     prompt = """
     You are an expert agricultural plant pathologist. Analyze this image of a crop/plant.
     1. Identify if there is a disease, pest, or if it is healthy.
