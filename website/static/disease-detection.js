@@ -15,7 +15,7 @@ const resultsArea = document.getElementById('results-area');
 // --- GEMINI API INTEGRATION ---
 
 // IMPORTANT: Replace this with your actual Gemini API Key
-// const GEMINI_API_KEY = "AIzaSyBXaPPjyufo7VC9ccU82mki88JLSdSYAw4";
+
 
 async function callGeminiAPI(base64Image) {
     
